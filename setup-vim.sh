@@ -9,13 +9,8 @@ mkdir "$CSCOPE_DIR"
 fi
 
 echo "Finding files ..."
-find "$PWD" -name '*.[ch]' \
--o -name '*.conf' \
--o -name '*.cpp' \
--o -name '*.cc' \
--o -name '*.hpp' >  "$CSCOPE_DIR/cscope.files"
-
-find "$ZEPHYR_BASE" - name '*[ch]'>> "$CSCOPE_DIR/cscope.files"
+find "$PWD" \( \( -iname "*.c" -o -iname "*.cc" -o -iname "*.h" \) -and \( -not -type l \) \) -print > "$CSCOPE_DIR/cscope.files" && \
+find "$ZEPHYR_BASE" \( \( -iname "*.c" -o -iname "*.cc" -o -iname "*.h" \) -and \( -not -type l \) \) -print >> "$CSCOPE_DIR/cscope.files"
 
 echo "Adding files to cscope db: $PWD/cscope.db ..."
 cscope -b -i "$CSCOPE_DIR/cscope.files"
